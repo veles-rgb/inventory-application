@@ -9,6 +9,14 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(assetsPath));
 
+const indexRouter = require("./routes/indexRouter");
+const animalsRouter = require("./routes/animalsRouter");
+const categoriesRouter = require("./routes/categoriesRouter");
+
+app.use("/", indexRouter);
+app.use("/animals", animalsRouter);
+app.use("/categories", categoriesRouter);
+
 const PORT = 3000;
 app.listen(PORT, (error) => {
     if (error) {
