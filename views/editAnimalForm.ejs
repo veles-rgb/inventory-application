@@ -1,0 +1,44 @@
+<head>
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <h1>Edit Animal Form</h1>
+    <form action="/animals/<%= animal.id %>/edit" method="POST">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" value="<%=animal.name%>">
+
+        <label for="categoryId">Category</label>
+        <select name="categoryId" id="categoryId">
+            <% categories.forEach((category)=> { %>
+                <option value="<%= category.id %>" <%=animal && category.id===animal.category_id ? "selected" : "" %>
+                    >
+                    <%= category.name %>
+                </option>
+                <% }) %>
+        </select>
+
+        <label for="age">Age</label>
+        <input type="number" name="age" id="age" value="<%= animal.age %>">
+
+        <label for="price">Price</label>
+        <input type="number" name="price" id="price" value="<%= animal.price %>">
+
+        <label for="status">Status</label>
+        <select name="status" id="status">
+            <option value="available" <%=animal && animal.status==="available" ? "selected" : "" %>>
+                available
+            </option>
+            <option value="unavailable" <%=animal && animal.status==="unavailable" ? "selected" : "" %>>
+                unavailable
+            </option>
+        </select>
+
+        <label for="description">Description</label>
+        <textarea name="description" id="description" placeholder="Is cute!"><%= animal.description %></textarea>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
