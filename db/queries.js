@@ -32,8 +32,76 @@ async function postNewCategory(name, description) {
     return result.rows[0];
 }
 
+async function getAnimalById(id) {
+    const animalId = Number(id);
+    if (!Number.isInteger(animalId)) throw new Error("Invalid Animal ID");
+
+    const result = await pool.query(
+        "SELECT * FROM animals WHERE id = ($1)",
+        [animalId]
+    );
+
+    return result.rows[0] || null;
+}
+
+async function getCategoryById(id) {
+    const categoryId = Number(id);
+    if (!Number.isInteger(categoryId)) throw new Error("Invalid Category ID");
+
+    const result = await pool.query(
+        "SELECT * FROM categories WHERE id = ($1)",
+        [categoryId]
+    );
+
+    return result.rows[0] || null;
+}
+
+async function postAnimalEdit(id, name, categoryId, age, price, status, description) {
+    const animalId = Number(id);
+    if (!Number.isInteger(animalId)) throw new Error("Invalid Animal ID");
+
+    const query = `
+    UPDATE animals
+    SET name = $1,
+        category_id = $2,
+        age = $3,
+        price = $4,
+        status = $5,
+        description = $6
+    WHERE id = $7
+    RETURNING *;
+  `;
+
+    const values = [name, categoryId, age, price, status, description, animalId];
+
+    const result = await pool.query(query, values);
+    return result.rows[0];
+}
+
+async function postEditCategory(id, name, description) {
+    const categoryId = Number(id);
+    if (!Number.isInteger(categoryId)) throw new Error("Invalid Category ID");
+
+    const query = `
+    UPDATE categories
+    SET name = $2,
+        description = $3
+    WHERE id = $1
+    RETURNING *;
+  `;
+
+    const values = [categoryId, name, description];
+
+    const result = await pool.query(query, values);
+    return result.rows[0];
+}
+
 module.exports = {
     getAllCategories,
     postNewAnimal,
-    postNewCategory
+    postNewCategory,
+    getAnimalById,
+    postAnimalEdit,
+    getCategoryById,
+    postEditCategory
 };
