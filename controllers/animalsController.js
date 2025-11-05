@@ -14,7 +14,26 @@ async function getAnimalById(req, res) {
     });
 }
 
+async function getAnimalForm(req, res) {
+    const categories = await db.getAllCategories();
+
+    res.render("animalForm", {
+        title: "Add New Animal",
+        categories: categories
+    });
+}
+
+async function postNewAnimal(req, res) {
+    const { name, categoryId, age, price, status, description } = req.body;
+
+    await db.postNewAnimal(name, categoryId, age, price, status, description);
+
+    res.redirect("/animals");
+}
+
 module.exports = {
     getAllAnimals,
-    getAnimalById
+    getAnimalById,
+    getAnimalForm,
+    postNewAnimal
 };
