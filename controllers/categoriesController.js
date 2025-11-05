@@ -13,7 +13,22 @@ async function getCategoryById(req, res) {
     });
 }
 
+async function getCategoryForm(req, res) {
+    res.render("categoryForm", {
+        title: "New Category"
+    });
+}
+
+async function postNewCategory(req, res) {
+    const { name, description } = req.body;
+
+    await db.postNewCategory(name, description);
+    res.redirect("/categories");
+}
+
 module.exports = {
     getAllCategories,
-    getCategoryById
+    getCategoryById,
+    getCategoryForm,
+    postNewCategory
 };
