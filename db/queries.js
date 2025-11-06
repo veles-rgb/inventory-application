@@ -13,6 +13,13 @@ async function postNewAnimal(name, categoryId, age, price, status, description) 
     return result.rows[0];
 }
 
+async function getAllAnimals() {
+    const { rows } = await pool.query(
+        "SELECT * FROM animals"
+    );
+    return rows;
+}
+
 async function getAllCategories() {
     const { rows } = await pool.query(
         "SELECT * FROM categories"
@@ -96,12 +103,38 @@ async function postEditCategory(id, name, description) {
     return result.rows[0];
 }
 
+async function deleteAnimalItem(id) {
+    const animalId = Number(id);
+    if (!Number.isInteger(animalId)) throw new Error("Invalid Animal ID");
+
+    const result = await pool.query(
+        "DELETE FROM animals WHERE id = ($1) RETURNING *;",
+        [animalId]
+    );
+
+    return result.rows[0];
+}
+
+async function deleteCategoryItem(id) {
+    const categoryId = Number(id);
+    if (!Number.isInteger(categoryId)) throw new Error("Invalid Category ID");
+
+    const result = await pool.query(
+        "DELETE FROM categories WHERE id = ($1) RETURNING *;",
+        [categoryId]
+    );
+    return result.rows[0];
+}
+
 module.exports = {
     getAllCategories,
+    getAllAnimals,
     postNewAnimal,
     postNewCategory,
     getAnimalById,
     postAnimalEdit,
     getCategoryById,
-    postEditCategory
+    postEditCategory,
+    deleteAnimalItem,
+    deleteCategoryItem
 };
