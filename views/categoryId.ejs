@@ -20,4 +20,22 @@
                 Delete
             </button>
         </form>
+
+        <div>
+            <h2>
+                <%= category.name %>'s
+            </h2>
+            <% animals.forEach((animal)=> { %>
+                <div>
+                    <h4>
+                        <%= animal.name %>
+                    </h4>
+                    <p>Description: <%= animal.description %>
+                    </p>
+                    <p>Age: <%= animal.age %> | Price: <%= animal.price %> | Status: <%=animal.status %>
+                    </p>
+                    <button onclick="location.href = '/animals/<%= animal.id %>'">View</button>
+                </div>
+                <% }) %>
+        </div>
 </body>
