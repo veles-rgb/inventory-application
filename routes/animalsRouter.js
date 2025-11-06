@@ -7,6 +7,7 @@ router.get("/new", controller.getAnimalForm);
 router.post("/new", controller.postNewAnimal);
 router.get("/:id/edit", controller.getEditAnimalForm);
 router.post("/:id/edit", controller.postEditAnimal);
+router.post("/:id/delete", controller.deleteAnimalItem);
 router.get("/:id", controller.getAnimalById);
 
 module.exports = router;
