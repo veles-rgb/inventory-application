@@ -5,15 +5,17 @@
 </head>
 
 <body>
-    <h1>Edit Category Form</h1>
+    <%- include("partials/header") %>
+        <h1>Edit Category Form</h1>
 
-    <form action="/categories/<%= category.id %>/edit" method="POST">
-        <label for="name">Name</label>
-        <input type="text" name="name" id="name" value="<%= category.name %>">
+        <form action="/categories/<%= category.id %>/edit" method="POST">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" value="<%= category.name %>">
 
-        <label for="description">Description</label>
-        <textarea name="description" id="description" placeholder="Fluffy animal"><%= category.description %></textarea>
+            <label for="description">Description</label>
+            <textarea name="description" id="description"
+                placeholder="Fluffy animal"><%= category.description %></textarea>
 
-        <input type="submit" value="Submit">
-    </form>
+            <input type="submit" value="Submit">
+        </form>
 </body>

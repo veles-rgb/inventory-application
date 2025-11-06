@@ -5,5 +5,20 @@
 </head>
 
 <body>
-    <h1>Animal :id</h1>
+    <%- include("partials/header") %>
+        <div>
+            <h3>
+                <%= animal.name %>
+            </h3>
+            <p>Description: <%= animal.description %>
+            </p>
+            <p>Age: <%= animal.age %> | Price: <%= animal.price %> | Status: <%=animal.status %>
+            </p>
+            <button onclick="location.href = '/animals/<%= animal.id %>/edit'">Edit</button>
+            <form action="/animals/<%= animal.id %>/delete" method="POST">
+                <button type="submit" onclick="return confirm('Delete this animal?');">
+                    Delete
+                </button>
+            </form>
+        </div>
 </body>

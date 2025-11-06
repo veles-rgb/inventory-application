@@ -5,5 +5,32 @@
 </head>
 
 <body>
-    <h1>All Animals</h1>
+    <%- include("partials/header") %>
+        <h1>All Animals</h1>
+
+        <% if (!animals || animals.length===0) { %>
+            <p>No animals found.</p>
+            <% } else { %>
+                <% animals.forEach((animal)=> { %>
+                    <div>
+                        <h3>
+                            <%= animal.name %>
+                        </h3>
+                        <p>Age: <%= animal.age %>
+                        </p>
+                        <p>Price: $<%= animal.price %>
+                        </p>
+                        <p>Status: <%= animal.status %>
+                        </p>
+                        <p>Description: <%= animal.description %>
+                        </p>
+                        <button onclick="location.href = '/animals/<%= animal.id %>'">View</button>
+                        <form action="/animals/<%= animal.id %>/delete" method="POST">
+                            <button type="submit" onclick="return confirm('Delete this animal?');">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                    <% }) %>
+                        <% } %>
 </body>
