@@ -11,6 +11,7 @@ async function getAllCategories(req, res) {
 async function getCategoryById(req, res) {
     const id = req.params.id;
     const category = await db.getCategoryById(id);
+    const animals = await db.getAnimalsWithCategoryId(id);
 
     if (!category) {
         return res.status(404).render("404", {
@@ -21,7 +22,8 @@ async function getCategoryById(req, res) {
 
     res.render("categoryId", {
         title: `${category.name} | Categories`,
-        category
+        category,
+        animals
     });
 }
 
