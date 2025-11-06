@@ -7,6 +7,7 @@ router.get("/new", controller.getCategoryForm);
 router.post("/new", controller.postNewCategory);
 router.get("/:id/edit", controller.getEditCategoryForm);
 router.post("/:id/edit", controller.postEditCategory);
+router.post("/:id/delete", controller.deleteCategoryItem);
 router.get("/:id", controller.getCategoryById);
 
 module.exports = router;
