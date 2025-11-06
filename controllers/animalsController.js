@@ -1,18 +1,30 @@
 const db = require("../db/queries");
 
 async function getAllAnimals(req, res) {
+    const animals = await db.getAllAnimals();
     res.render("animals", {
-        title: "All Animals"
+        title: "All Animals",
+        animals
     });
 }
 
 async function getAnimalById(req, res) {
-    const id = req.params.id;
+    const { id } = req.params;
+    const animal = await db.getAnimalById(id);
+
+    if (!animal) {
+        return res.status(404).render("404", {
+            title: "Animal Not Found",
+            message: `No animal found with ID ${id}.`,
+        });
+    }
 
     res.render("animalId", {
-        title: "animal ID"
+        title: `${animal.name} | Animals`,
+        animal,
     });
 }
+
 
 async function getAnimalForm(req, res) {
     const categories = await db.getAllCategories();
@@ -51,11 +63,20 @@ async function postEditAnimal(req, res) {
     res.redirect("/categories");
 }
 
+async function deleteAnimalItem(req, res) {
+    const { id } = req.params;
+
+    await db.deleteAnimalItem(id);
+
+    res.redirect("/animals");
+}
+
 module.exports = {
     getAllAnimals,
     getAnimalById,
     getAnimalForm,
     postNewAnimal,
     getEditAnimalForm,
-    postEditAnimal
+    postEditAnimal,
+    deleteAnimalItem
 };
