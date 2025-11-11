@@ -51,15 +51,24 @@ async function getEditCategoryForm(req, res) {
 
 async function postEditCategory(req, res) {
     const { id } = req.params;
-    const { name, description } = req.body;
+    const { name, description, adminPassword } = req.body;
+
+    if (adminPassword !== process.env.ADMIN_PASSWORD) {
+        return res.status(401).send("Incorrect admin password.");
+    }
 
     await db.postEditCategory(id, name, description);
 
-    res.redirect("/animals");
+    res.redirect("/categories");
 }
 
 async function deleteCategoryItem(req, res) {
     const { id } = req.params;
+    const { adminPassword } = req.body;
+
+    if (adminPassword !== process.env.ADMIN_PASSWORD) {
+        return res.status(401).send("Incorrect admin password.");
+    }
 
     await db.deleteCategoryItem(id);
 

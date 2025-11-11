@@ -7,6 +7,7 @@
 <body>
     <%- include("partials/header") %>
         <h1>All Animals</h1>
+        <button onclick="location.href = '/animals/new'">Add Animal</button>
 
         <% if (!animals || animals.length===0) { %>
             <p>No animals found.</p>
@@ -25,11 +26,21 @@
                         <p>Description: <%= animal.description %>
                         </p>
                         <button onclick="location.href = '/animals/<%= animal.id %>'">View</button>
-                        <form action="/animals/<%= animal.id %>/delete" method="POST">
-                            <button type="submit" onclick="return confirm('Delete this animal?');">
-                                Delete
-                            </button>
+                        <form action="/animals/<%= animal.id %>/delete" method="POST"
+                            onsubmit="return confirmDelete(this);" style="display:inline;">
+                            <input type="hidden" name="adminPassword" value="">
+                            <button type="submit">Delete</button>
                         </form>
+                        <script>
+                            function confirmDelete(form) {
+                                const pwd = window.prompt("Enter admin password to confirm deletion:");
+                                if (!pwd) {
+                                    return false;
+                                }
+                                form.adminPassword.value = pwd;
+                                return true;
+                            }
+                        </script>
                     </div>
                     <% }) %>
                         <% } %>

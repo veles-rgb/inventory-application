@@ -56,15 +56,23 @@ async function getEditAnimalForm(req, res) {
 
 async function postEditAnimal(req, res) {
     const { id } = req.params;
-    const { name, categoryId, age, price, status, description } = req.body;
+    const { name, categoryId, age, price, status, description, adminPassword } = req.body;
+
+    if (adminPassword !== process.env.ADMIN_PASSWORD) {
+        return res.status(401).send("Incorrect admin password.");
+    }
 
     await db.postAnimalEdit(id, name, categoryId, age, price, status, description);
-
-    res.redirect("/categories");
+    res.redirect("/animals/" + id);
 }
 
 async function deleteAnimalItem(req, res) {
     const { id } = req.params;
+    const { adminPassword } = req.body;
+
+    if (adminPassword !== process.env.ADMIN_PASSWORD) {
+        return res.status(401).send("Incorrect admin password.");
+    }
 
     await db.deleteAnimalItem(id);
 

@@ -15,11 +15,22 @@
             <%= category.description %>
         </p>
         <button onclick="location.href = '/categories/<%= category.id %>/edit'">Edit</button>
-        <form action="/categories/<%= category.id %>/delete" method="POST">
-            <button type="submit" onclick="return confirm('Delete this category?');">
-                Delete
-            </button>
+        <form action="/categories/<%= category.id %>/delete" method="POST" onsubmit="return confirmDelete(this);"
+            style="display:inline;">
+            <input type="hidden" name="adminPassword" value="">
+            <button type="submit">Delete</button>
         </form>
+        <script>
+            function confirmDelete(form) {
+                const pwd = window.prompt("Enter admin password to confirm deletion:");
+                if (!pwd) {
+                    return false;
+                }
+                form.adminPassword.value = pwd;
+                return true;
+            }
+        </script>
+
 
         <div>
             <h2>

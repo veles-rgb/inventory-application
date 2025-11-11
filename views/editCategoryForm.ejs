@@ -8,7 +8,9 @@
     <%- include("partials/header") %>
         <h1>Edit Category Form</h1>
 
-        <form action="/categories/<%= category.id %>/edit" method="POST">
+        <form action="/categories/<%= category.id %>/edit" method="POST" onsubmit="return confirmEdit(this);">
+            <input type="hidden" name="adminPassword">
+
             <label for="name">Name</label>
             <input type="text" name="name" id="name" value="<%= category.name %>">
 
@@ -18,4 +20,13 @@
 
             <input type="submit" value="Submit">
         </form>
+
+        <script>
+            function confirmEdit(form) {
+                const pwd = prompt("Enter admin password to save category changes:");
+                if (!pwd) return false;
+                form.adminPassword.value = pwd;
+                return true;
+            }
+        </script>
 </body>
