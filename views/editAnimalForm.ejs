@@ -1,41 +1,65 @@
-<form action="/animals/<%= animal.id %>/edit" method="POST" onsubmit="return confirmEdit(this);">
-    <input type="hidden" name="adminPassword">
+<head>
+    <title>
+        <%= title %>
+    </title>
+</head>
 
-    <label for="name">Name</label>
-    <input type="text" name="name" id="name" value="<%=animal.name%>">
+<body>
+    <%- include("partials/header") %>
+        <h1>Edit Animal</h1>
+        <% if (errors && errors.length> 0) { %>
+            <ul class="error-list">
+                <% errors.forEach(error=> { %>
+                    <li>
+                        <%= error.msg %>
+                    </li>
+                    <% }) %>
+            </ul>
+            <% } %>
+                <form action="/animals/<%= animal.id %>/edit" method="POST" onsubmit="return confirmEdit(this);">
+                    <input type="hidden" name="adminPassword">
 
-    <label for="categoryId">Category</label>
-    <select name="categoryId" id="categoryId">
-        <% categories.forEach((category)=> { %>
-            <option value="<%= category.id %>" <%=animal && category.id===animal.category_id ? "selected" : "" %>>
-                <%= category.name %>
-            </option>
-            <% }) %>
-    </select>
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" value="<%=animal.name%>">
 
-    <label for="age">Age</label>
-    <input type="number" name="age" id="age" value="<%= animal.age %>">
+                    <label for="categoryId">Category</label>
+                    <select name="categoryId" id="categoryId">
+                        <% categories.forEach((category)=> { %>
+                            <option value="<%= category.id %>" <%=animal && category.id===animal.category_id
+                                ? "selected" : "" %>>
+                                <%= category.name %>
+                            </option>
+                            <% }) %>
+                    </select>
 
-    <label for="price">Price</label>
-    <input type="number" name="price" id="price" value="<%= animal.price %>">
+                    <label for="age">Age</label>
+                    <input type="number" name="age" id="age" value="<%= animal.age %>">
 
-    <label for="status">Status</label>
-    <select name="status" id="status">
-        <option value="available" <%=animal && animal.status==="available" ? "selected" : "" %>>available</option>
-        <option value="unavailable" <%=animal && animal.status==="unavailable" ? "selected" : "" %>>unavailable</option>
-    </select>
+                    <label for="price">Price</label>
+                    <input type="number" name="price" id="price" value="<%= animal.price %>">
 
-    <label for="description">Description</label>
-    <textarea name="description" id="description"><%= animal.description %></textarea>
+                    <label for="status">Status</label>
+                    <select name="status" id="status">
+                        <option value="available" <%=animal && animal.status==="available" ? "selected" : "" %>
+                            >available
+                        </option>
+                        <option value="unavailable" <%=animal && animal.status==="unavailable" ? "selected" : "" %>
+                            >unavailable
+                        </option>
+                    </select>
 
-    <input type="submit" value="Submit">
-</form>
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description"><%= animal.description %></textarea>
 
-<script>
-    function confirmEdit(form) {
-        const pwd = prompt("Enter admin password to save changes:");
-        if (!pwd) return false;
-        form.adminPassword.value = pwd;
-        return true;
-    }
-</script>
+                    <input type="submit" value="Submit">
+                </form>
+
+                <script>
+                    function confirmEdit(form) {
+                        const pwd = prompt("Enter admin password to save changes:");
+                        if (!pwd) return false;
+                        form.adminPassword.value = pwd;
+                        return true;
+                    }
+                </script>
+</body>

@@ -1,4 +1,6 @@
 const db = require("../db/queries");
+const { validationResult } = require("express-validator");
+
 
 async function getAllAnimals(req, res) {
     const animals = await db.getAllAnimals();
@@ -31,11 +33,24 @@ async function getAnimalForm(req, res) {
 
     res.render("animalForm", {
         title: "Add New Animal",
-        categories: categories
+        categories: categories,
+        errors: [],
     });
 }
 
 async function postNewAnimal(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const categories = await db.getAllCategories();
+        return res.status(400).render("animalForm", {
+            title: "Add New Animal",
+            categories,
+            animal: req.body,
+            errors: errors.array(),
+        });
+    }
+
     const { name, categoryId, age, price, status, description } = req.body;
 
     await db.postNewAnimal(name, categoryId, age, price, status, description);
@@ -50,12 +65,29 @@ async function getEditAnimalForm(req, res) {
     res.render("editAnimalForm", {
         title: "Edit Animal",
         categories: categories,
-        animal: animal
+        animal: animal,
+        errors: [],
     });
 }
 
 async function postEditAnimal(req, res) {
     const { id } = req.params;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const [animal, categories] = await Promise.all([
+            db.getAnimalById(id),
+            db.getAllCategories(),
+        ]);
+
+        return res.status(400).render("editAnimalForm", {
+            title: "Edit Animal",
+            animal: { ...animal, ...req.body },
+            categories,
+            errors: errors.array(),
+        });
+    }
+
     const { name, categoryId, age, price, status, description, adminPassword } = req.body;
 
     if (adminPassword !== process.env.ADMIN_PASSWORD) {
@@ -63,8 +95,9 @@ async function postEditAnimal(req, res) {
     }
 
     await db.postAnimalEdit(id, name, categoryId, age, price, status, description);
-    res.redirect("/animals/" + id);
+    res.redirect(`/animals/${id}`);
 }
+
 
 async function deleteAnimalItem(req, res) {
     const { id } = req.params;

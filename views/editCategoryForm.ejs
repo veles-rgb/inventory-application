@@ -7,26 +7,35 @@
 <body>
     <%- include("partials/header") %>
         <h1>Edit Category Form</h1>
+        <% if (errors && errors.length> 0) { %>
+            <ul class="error-list">
+                <% errors.forEach(error=> { %>
+                    <li>
+                        <%= error.msg %>
+                    </li>
+                    <% }) %>
+            </ul>
+            <% } %>
 
-        <form action="/categories/<%= category.id %>/edit" method="POST" onsubmit="return confirmEdit(this);">
-            <input type="hidden" name="adminPassword">
+                <form action="/categories/<%= category.id %>/edit" method="POST" onsubmit="return confirmEdit(this);">
+                    <input type="hidden" name="adminPassword">
 
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" value="<%= category.name %>">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" value="<%= category.name %>">
 
-            <label for="description">Description</label>
-            <textarea name="description" id="description"
-                placeholder="Fluffy animal"><%= category.description %></textarea>
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description"
+                        placeholder="Fluffy animal"><%= category.description %></textarea>
 
-            <input type="submit" value="Submit">
-        </form>
+                    <input type="submit" value="Submit">
+                </form>
 
-        <script>
-            function confirmEdit(form) {
-                const pwd = prompt("Enter admin password to save category changes:");
-                if (!pwd) return false;
-                form.adminPassword.value = pwd;
-                return true;
-            }
-        </script>
+                <script>
+                    function confirmEdit(form) {
+                        const pwd = prompt("Enter admin password to save category changes:");
+                        if (!pwd) return false;
+                        form.adminPassword.value = pwd;
+                        return true;
+                    }
+                </script>
 </body>

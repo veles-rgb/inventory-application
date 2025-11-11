@@ -1,4 +1,6 @@
 const db = require("../db/queries");
+const { validationResult } = require("express-validator");
+
 
 async function getAllCategories(req, res) {
     const categories = await db.getAllCategories();
@@ -29,28 +31,51 @@ async function getCategoryById(req, res) {
 
 async function getCategoryForm(req, res) {
     res.render("categoryForm", {
-        title: "New Category"
+        title: "New Category",
+        errors: [],
     });
 }
 
 async function postNewCategory(req, res) {
-    const { name, description } = req.body;
+    const errors = validationResult(req);
 
+    if (!errors.isEmpty()) {
+        return res.status(400).render("categoryForm", {
+            title: "Add New Category",
+            category: req.body,
+            errors: errors.array(),
+        });
+    }
+
+    const { name, description } = req.body;
     await db.postNewCategory(name, description);
     res.redirect("/categories");
 }
+
 
 async function getEditCategoryForm(req, res) {
     const { id } = req.params;
     const category = await db.getCategoryById(id);
     res.render("editCategoryForm", {
         title: "Edit Category",
-        category: category
+        category: category,
+        errors: [],
     });
 }
 
 async function postEditCategory(req, res) {
     const { id } = req.params;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const category = await db.getCategoryById(id);
+        return res.status(400).render("editCategoryForm", {
+            title: "Edit Category",
+            category: { ...category, ...req.body },
+            errors: errors.array(),
+        });
+    }
+
     const { name, description, adminPassword } = req.body;
 
     if (adminPassword !== process.env.ADMIN_PASSWORD) {
@@ -58,9 +83,9 @@ async function postEditCategory(req, res) {
     }
 
     await db.postEditCategory(id, name, description);
-
     res.redirect("/categories");
 }
+
 
 async function deleteCategoryItem(req, res) {
     const { id } = req.params;
