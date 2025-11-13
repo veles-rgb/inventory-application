@@ -21,8 +21,12 @@ async function getAllAnimals() {
 }
 
 async function getAnimalsWithCategoryId(id) {
-    const categoryId = Number(id);
-    if (!Number.isInteger(categoryId)) return new Error("Invalid Category ID");
+    const categoryId = Number.parseInt(id, 10);
+
+    if (Number.isNaN(categoryId)) {
+        return null;
+    }
+
     const { rows } = await pool.query(
         "SELECT * FROM animals WHERE category_id = ($1)",
         [categoryId]
@@ -51,8 +55,11 @@ async function postNewCategory(name, description) {
 }
 
 async function getAnimalById(id) {
-    const animalId = Number(id);
-    if (!Number.isInteger(animalId)) throw new Error("Invalid Animal ID");
+    const animalId = Number.parseInt(id, 10);
+
+    if (Number.isNaN(animalId)) {
+        return null;
+    }
 
     const result = await pool.query(
         "SELECT * FROM animals WHERE id = ($1)",
@@ -63,8 +70,11 @@ async function getAnimalById(id) {
 }
 
 async function getCategoryById(id) {
-    const categoryId = Number(id);
-    if (!Number.isInteger(categoryId)) throw new Error("Invalid Category ID");
+    const categoryId = Number.parseInt(id, 10);
+
+    if (Number.isNaN(categoryId)) {
+        return null;
+    }
 
     const result = await pool.query(
         "SELECT * FROM categories WHERE id = ($1)",
