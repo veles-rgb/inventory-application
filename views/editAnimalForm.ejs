@@ -2,11 +2,14 @@
     <title>
         <%= title %>
     </title>
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/skeleton.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
     <%- include("partials/header") %>
-        <h1>Edit Animal</h1>
         <% if (errors && errors.length> 0) { %>
             <ul class="error-list">
                 <% errors.forEach(error=> { %>
@@ -17,6 +20,8 @@
             </ul>
             <% } %>
                 <form action="/animals/<%= animal.id %>/edit" method="POST" onsubmit="return confirmEdit(this);">
+                    <h1>Edit <%= animal.name %>
+                    </h1>
                     <input type="hidden" name="adminPassword">
 
                     <label for="name">Name</label>

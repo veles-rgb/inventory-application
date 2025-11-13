@@ -2,40 +2,50 @@
     <title>
         <%= title%>
     </title>
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/skeleton.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
     <%- include("partials/header") %>
-        <h1>All categories</h1>
-        <button onclick="location.href = '/categories/new'">Add Category</button>
+        <div id="categories-top">
+            <h1>Categories</h1>
+            <button onclick="location.href = '/categories/new'">Add Category</button>
+        </div>
 
-        <div>
+        <div id="categories-main">
             <% if (!categories || categories.length===0) { %>
                 <p>There is currently no categories.</p>
                 <% } else { %>
                     <% categories.forEach((category)=> { %>
-                        <h3>
-                            <%= category.name %>
-                        </h3>
-                        <p>
-                            <%= category.description %>
-                        </p>
-                        <button onclick="location.href = '/categories/<%= category.id %>'">View</button>
-                        <form action="/categories/<%= category.id %>/delete" method="POST"
-                            onsubmit="return confirmDelete(this);" style="display:inline;">
-                            <input type="hidden" name="adminPassword" value="">
-                            <button type="submit">Delete</button>
-                        </form>
-                        <script>
-                            function confirmDelete(form) {
-                                const pwd = window.prompt("Enter admin password to confirm deletion:");
-                                if (!pwd) {
-                                    return false;
+                        <div class="category-item">
+                            <h3>
+                                <%= category.name %>
+                            </h3>
+                            <p>
+                                <%= category.description %>
+                            </p>
+                            <div class="categories-btns">
+                                <button onclick="location.href = '/categories/<%= category.id %>'">View</button>
+                                <form action="/categories/<%= category.id %>/delete" method="POST"
+                                    onsubmit="return confirmDelete(this);" style="display:inline;">
+                                    <input type="hidden" name="adminPassword" value="">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </div>
+                            <script>
+                                function confirmDelete(form) {
+                                    const pwd = window.prompt("Enter admin password to confirm deletion:");
+                                    if (!pwd) {
+                                        return false;
+                                    }
+                                    form.adminPassword.value = pwd;
+                                    return true;
                                 }
-                                form.adminPassword.value = pwd;
-                                return true;
-                            }
-                        </script>
+                            </script>
+                        </div>
                         <% }) %>
                             <% } %>
         </div>

@@ -2,49 +2,74 @@
     <title>
         <%= title %>
     </title>
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/skeleton.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
     <%- include("partials/header") %>
-        <h1>Category by ID</h1>
-
-        <h3>
-            <%= category.name %>
-        </h3>
-        <p>
-            <%= category.description %>
-        </p>
-        <button onclick="location.href = '/categories/<%= category.id %>/edit'">Edit</button>
-        <form action="/categories/<%= category.id %>/delete" method="POST" onsubmit="return confirmDelete(this);"
-            style="display:inline;">
-            <input type="hidden" name="adminPassword" value="">
-            <button type="submit">Delete</button>
-        </form>
-        <script>
-            function confirmDelete(form) {
-                const pwd = window.prompt("Enter admin password to confirm deletion:");
-                if (!pwd) {
-                    return false;
+        <div class="categoryId-top">
+            <h1>
+                Category: <%= category.name %>
+            </h1>
+            <p>
+                <%= category.description %>
+            </p>
+            <div class="categoryId-top-btns">
+                <button onclick="location.href = '/categories/<%= category.id %>/edit'">Edit</button>
+                <form action="/categories/<%= category.id %>/delete" method="POST"
+                    onsubmit="return confirmDelete(this);" style="display:inline;">
+                    <input type="hidden" name="adminPassword" value="">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+            <script>
+                function confirmDelete(form) {
+                    const pwd = window.prompt("Enter admin password to confirm deletion:");
+                    if (!pwd) {
+                        return false;
+                    }
+                    form.adminPassword.value = pwd;
+                    return true;
                 }
-                form.adminPassword.value = pwd;
-                return true;
-            }
-        </script>
+            </script>
+        </div>
 
-
-        <div>
-            <h2>
-                <%= category.name %>'s
-            </h2>
+        <h3 class="categoryId-main-title">
+            <%= category.name %>'s
+        </h3>
+        <div class="categoryId-main">
             <% animals.forEach((animal)=> { %>
-                <div>
-                    <h4>
+                <div class="categoryId-list-item">
+                    <h3>
                         <%= animal.name %>
-                    </h4>
-                    <p>Description: <%= animal.description %>
-                    </p>
-                    <p>Age: <%= animal.age %> | Price: <%= animal.price %> | Status: <%=animal.status %>
-                    </p>
+                    </h3>
+                    <div class="categoryId-item-desc">
+                        <p class="categoryId-label">Description:</p>
+                        <p>
+                            <%= animal.description %>
+                        </p>
+                    </div>
+                    <div class="categoryId-item-age">
+                        <p class="categoryId-label">Age:</p>
+                        <p>
+                            <%= animal.age %>
+                        </p>
+                    </div>
+                    <div class="categoryId-item-price">
+                        <p class="categoryId-label">Price:</p>
+                        <p>
+                            <%= animal.price %>
+                        </p>
+                    </div>
+                    <div class="categoryId-item-status">
+                        <p class="categoryId-label">Status:</p>
+                        <p>
+                            <%=animal.status %>
+                        </p>
+                    </div>
                     <button onclick="location.href = '/animals/<%= animal.id %>'">View</button>
                 </div>
                 <% }) %>

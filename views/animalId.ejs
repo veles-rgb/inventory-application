@@ -2,24 +2,50 @@
     <title>
         <%= title %>
     </title>
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/skeleton.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
     <%- include("partials/header") %>
-        <div>
+        <div id="animalId-item">
             <h3>
                 <%= animal.name %>
             </h3>
-            <p>Description: <%= animal.description %>
-            </p>
-            <p>Age: <%= animal.age %> | Price: <%= animal.price %> | Status: <%=animal.status %>
-            </p>
-            <button onclick="location.href = '/animals/<%= animal.id %>/edit'">Edit</button>
-            <form action="/animals/<%= animal.id %>/delete" method="POST" onsubmit="return confirmDelete(this);"
-                style="display:inline;">
-                <input type="hidden" name="adminPassword" value="">
-                <button type="submit">Delete</button>
-            </form>
+            <div class="animalId-desc">
+                <p class="animalId-label">Description:</p>
+                <p>
+                    <%= animal.description %>
+                </p>
+            </div>
+            <div class="animalId-age">
+                <p class="animalId-label">Age:</p>
+                <p>
+                    <%= animal.age %>
+                </p>
+            </div>
+            <div class="animalId-price">
+                <p class="animalId-label">Price:</p>
+                <p>
+                    <%= animal.price %>
+                </p>
+            </div>
+            <div class="animalId-status">
+                <p class="animalId-label">Status:</p>
+                <p>
+                    <%=animal.status %>
+                </p>
+            </div>
+            <div class="animalId-btns">
+                <button onclick="location.href = '/animals/<%= animal.id %>/edit'">Edit</button>
+                <form action="/animals/<%= animal.id %>/delete" method="POST" onsubmit="return confirmDelete(this);"
+                    style="display:inline;">
+                    <input type="hidden" name="adminPassword" value="">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
             <script>
                 function confirmDelete(form) {
                     const pwd = window.prompt("Enter admin password to confirm deletion:");

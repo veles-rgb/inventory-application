@@ -2,46 +2,56 @@
     <title>
         <%= title %>
     </title>
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/skeleton.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
     <%- include("partials/header") %>
-        <h1>All Animals</h1>
-        <button onclick="location.href = '/animals/new'">Add Animal</button>
+        <div id="animals-top">
+            <h1>Animals</h1>
+            <button onclick="location.href = '/animals/new'">Add Animal</button>
+        </div>
 
-        <% if (!animals || animals.length===0) { %>
-            <p>No animals found.</p>
-            <% } else { %>
-                <% animals.forEach((animal)=> { %>
-                    <div>
-                        <h3>
-                            <%= animal.name %>
-                        </h3>
-                        <p>Age: <%= animal.age %>
-                        </p>
-                        <p>Price: $<%= animal.price %>
-                        </p>
-                        <p>Status: <%= animal.status %>
-                        </p>
-                        <p>Description: <%= animal.description %>
-                        </p>
-                        <button onclick="location.href = '/animals/<%= animal.id %>'">View</button>
-                        <form action="/animals/<%= animal.id %>/delete" method="POST"
-                            onsubmit="return confirmDelete(this);" style="display:inline;">
-                            <input type="hidden" name="adminPassword" value="">
-                            <button type="submit">Delete</button>
-                        </form>
-                        <script>
-                            function confirmDelete(form) {
-                                const pwd = window.prompt("Enter admin password to confirm deletion:");
-                                if (!pwd) {
-                                    return false;
+        <div id="animals-main">
+            <% if (!animals || animals.length===0) { %>
+                <p>No animals found.</p>
+                <% } else { %>
+                    <% animals.forEach((animal)=> { %>
+                        <div class="animals-item">
+                            <h3>
+                                <%= animal.name %>
+                            </h3>
+                            <p>Age: <%= animal.age %>
+                            </p>
+                            <p>Price: $<%= animal.price %>
+                            </p>
+                            <p>Status: <%= animal.status %>
+                            </p>
+                            <p>Description: <%= animal.description %>
+                            </p>
+                            <div class="animals-btns">
+                                <button onclick="location.href='/animals/<%= animal.id %>'">View</button>
+                                <form action="/animals/<%= animal.id %>/delete" method="POST"
+                                    onsubmit="return confirmDelete(this);" style="display:inline;">
+                                    <input type="hidden" name="adminPassword" value="">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </div>
+                            <script>
+                                function confirmDelete(form) {
+                                    const pwd = window.prompt("Enter admin password to confirm deletion:");
+                                    if (!pwd) {
+                                        return false;
+                                    }
+                                    form.adminPassword.value = pwd;
+                                    return true;
                                 }
-                                form.adminPassword.value = pwd;
-                                return true;
-                            }
-                        </script>
-                    </div>
-                    <% }) %>
-                        <% } %>
+                            </script>
+                        </div>
+                        <% }) %>
+                            <% } %>
+        </div>
 </body>

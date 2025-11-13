@@ -2,11 +2,14 @@
     <title>
         <%= title %>
     </title>
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/skeleton.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
     <%- include("partials/header") %>
-        <h1>New Animal Form</h1>
         <% if (errors && errors.length> 0) { %>
             <ul class="error-list">
                 <% errors.forEach(error=> { %>
@@ -17,6 +20,7 @@
             </ul>
             <% } %>
                 <form action="/animals/new" method="POST">
+                    <h1>New Animal</h1>
                     <label for="name">Name</label>
                     <input type="text" name="name" id="name">
 
