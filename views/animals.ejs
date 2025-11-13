@@ -24,14 +24,30 @@
                             <h3>
                                 <%= animal.name %>
                             </h3>
-                            <p>Age: <%= animal.age %>
-                            </p>
-                            <p>Price: $<%= animal.price %>
-                            </p>
-                            <p>Status: <%= animal.status %>
-                            </p>
-                            <p>Description: <%= animal.description %>
-                            </p>
+                            <div class="animals-item-age">
+                                <p class="animals-item-label">Age:</p>
+                                <p>
+                                    <%= animal.age %>
+                                </p>
+                            </div>
+                            <div class="animals-item-price">
+                                <p class="animals-item-label">Price:</p>
+                                <p>
+                                    <%= animal.price %>
+                                </p>
+                            </div>
+                            <div class="animals-item-status">
+                                <p class="animals-item-label">Status:</p>
+                                <p>
+                                    <%= animal.status %>
+                                </p>
+                            </div>
+                            <div class="animals-item-desc">
+                                <p class="animals-item-label">description:</p>
+                                <p>
+                                    <%= animal.description %>
+                                </p>
+                            </div>
                             <div class="animals-btns">
                                 <button onclick="location.href='/animals/<%= animal.id %>'">View</button>
                                 <form action="/animals/<%= animal.id %>/delete" method="POST"
