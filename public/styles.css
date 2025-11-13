@@ -87,6 +87,7 @@ header a:hover {
     gap: 2rem;
     justify-content: center;
     align-items: stretch;
+    margin-bottom: 2rem;
 }
 
 .animals-item,
@@ -251,6 +252,7 @@ header a:hover {
     gap: 2rem;
     justify-content: center;
     align-items: stretch;
+    margin-bottom: 2rem;
 }
 
 .categoryId-main h3 {
